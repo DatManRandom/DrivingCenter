@@ -5,21 +5,13 @@ import jdk.jfr.Name;
 import javax.persistence.*;
 
 @Entity
-//@Table(name = "customer")
-/*@SecondaryTables({
-    @SecondaryTable(name = "address", pkJoinColumns = @PrimaryKeyJoinColumn(name = "Address_ID")),
-    @SecondaryTable(name = "request", pkJoinColumns = @PrimaryKeyJoinColumn(name = "Request_ID"))
-})*/
-
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int Customer_ID;
-    //@Column(table = "address")
     private int Address_ID;
-   // @Column(table = "request")
     private int Request_ID;
-    private String First_Name;
+    private String firstName;
     private String Last_Name;
     private String Date_Of_Birth;
     private String Email_Address;
@@ -48,12 +40,12 @@ public class Customer {
         Request_ID = request_ID;
     }
 
-    public String getFirst_Name() {
-        return First_Name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_Name(String first_Name) {
-        First_Name = first_Name;
+    public void setFirstName(String first_Name) {
+        firstName = first_Name;
     }
 
     public String getLast_Name() {
@@ -83,12 +75,12 @@ public class Customer {
     @Override
     public String toString() {
         return "{\"Customer_ID\":" + Customer_ID +
-            "\", \"Address_ID\":" + Address_ID +
-            "\", \"Request_ID\":" + Request_ID +
-            "\", \"First_Name\":" + First_Name +
-            "\", \"Last_Name\":" + Last_Name +
-            "\", \"Date_Of_Birth\":" + Date_Of_Birth +
-            "\", \"Email_Address\":" + Email_Address +
-            '}';
+            ", \"Address_ID\":" + Address_ID +
+            ", \"Request_ID\":" + Request_ID +
+            ", \"FirstName\":\"" + firstName +
+            "\", \"Last_Name\":\"" + Last_Name +
+            "\", \"Date_Of_Birth\":\"" + Date_Of_Birth +
+            "\", \"Email_Address\":\"" + Email_Address +
+            "\"}";
     }
 }

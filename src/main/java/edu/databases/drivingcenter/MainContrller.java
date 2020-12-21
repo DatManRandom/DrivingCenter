@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.swing.text.html.Option;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path = "/DrivingCenter")
@@ -29,20 +31,34 @@ public class MainContrller {
     }*/
 
     @PostMapping(path = "/saveRequest", consumes = "application/json", produces = "application/json")
-    public ResponseEntity test(@RequestBody String request) throws JsonProcessingException {
+    public ResponseEntity saveRequest(@RequestBody String request) throws JsonProcessingException {
         ObjectMapper ob = new ObjectMapper();
         Request in = ob.readValue(request, Request.class);
-        System.out.println(in);
-        requestRepository.save(in);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(requestRepository.save(in), HttpStatus.OK);
     }
 
     @PostMapping(path = "/saveCustomer", consumes = "application/json", produces = "application/json")
-    public ResponseEntity test2(@RequestBody String customer) throws JsonProcessingException {
+    public ResponseEntity saveCustomer(@RequestBody String customer) throws JsonProcessingException {
         ObjectMapper ob = new ObjectMapper();
         Customer in = ob.readValue(customer, Customer.class);
-        System.out.println(in);
-        customerRepository.save(in);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(customerRepository.save(in), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getAllCustomers", produces = "application/json")
+    public ResponseEntity<String> getAllCustomer() {
+        List<Customer> customerList = customerRepository.findAll();
+        String out = "[";
+        for (Customer customer : customerList) {
+            out += customer.toString() + ",";
+        }
+        out = out.substring(0, out.length() - 1) + "]";
+
+        return new ResponseEntity<>(out, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getCustomerById", produces = "application/json")
+    public ResponseEntity<String> getCustomerByFirstName(@RequestParam int Id) {
+        Optional<Customer> customer = customerRepository.findById(Id);
+        return new ResponseEntity<>(customer.get().toString(), HttpStatus.OK);
     }
 }
