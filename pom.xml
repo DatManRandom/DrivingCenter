@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>edu.databases</groupId>
 	<artifactId>drivingcenter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1</version>
 	<name>Driving Center </name>
 	<description>Project for connecting a driving center&apos;s database</description>
 
@@ -51,7 +51,17 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<finalName>DrivingCenter</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+
 
 </project>
