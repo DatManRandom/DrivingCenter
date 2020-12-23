@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +46,8 @@ public class MainContrller {
     @GetMapping(path = "/getAllCustomers", produces = "application/json")
     public ResponseEntity<String> getAllCustomer() {
         List<Customer> customerList = customerRepository.findAll();
+        if (customerList == null)
+            return new ResponseEntity<>("{\"There are no customers in the database\"}", HttpStatus.NO_CONTENT);
         String out = "[";
         for (Customer customer : customerList) {
             out += customer.toString() + ",";
@@ -57,8 +58,11 @@ public class MainContrller {
     }
 
     @GetMapping(path = "/getCustomerById", produces = "application/json")
-    public ResponseEntity<String> getCustomerByFirstName(@RequestParam int Id) {
-        Optional<Customer> customer = customerRepository.findById(Id);
+    public ResponseEntity<String> getCustomerByFirstName(@RequestParam int id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty())
+            return new ResponseEntity<>("{\"There are no customers in the database with such an ID\"}",
+                HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(customer.get().toString(), HttpStatus.OK);
     }
 }
